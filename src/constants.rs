@@ -4,7 +4,7 @@ pub const PRIMARY_SUPERBLOCK_ADDR: u64 = 0x10000;
 /// The physical addresses of superblocks.
 pub const SUPERBLOCK_ADDRS: [u64; 3] = [PRIMARY_SUPERBLOCK_ADDR, 0x4000000, 0x4000000000];
 
-pub const MAGIC: u64 = 0x5f42485266535f4d;
+pub const MAGIC: u64 = 0x4D5F53665248425F;
 
 /// Corresponds to `BTRFS_CSUM_SIZE`.
 pub const CSUM_SIZE: usize = 32;
