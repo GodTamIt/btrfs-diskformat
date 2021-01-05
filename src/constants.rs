@@ -21,7 +21,11 @@ pub const MAX_SYSTEM_CHUNK_ARRAY_SIZE: usize = 2048;
 /// Corresponds to `BTRFS_NUM_BACKUP_ROOTS`.
 pub const NUM_BACKUP_ROOTS: usize = 4;
 
-#[repr(u64)]
+#[derive(Debug, Copy, Clone)]
+#[repr(u16)]
 pub enum ChecksumType {
     CRC32 = 0,
+    XXHASH64 = 1,
+    SHA256 = 2,
+    BLAKE2b = 3,
 }
