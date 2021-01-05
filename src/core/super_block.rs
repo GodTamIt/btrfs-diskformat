@@ -3,9 +3,10 @@ use {
         constants::{
             CSUM_SIZE, FSID_SIZE, LABEL_SIZE, MAX_SYSTEM_CHUNK_ARRAY_SIZE, NUM_BACKUP_ROOTS,
         },
-        DevItem, RootBackup,
+        Checksummed, DevItem, RootBackup,
     },
     byteorder::LE,
+    memoffset::offset_of,
     static_assertions::const_assert_eq,
     zerocopy::{AsBytes, FromBytes, Unaligned, U16, U32, U64},
 };
@@ -117,3 +118,13 @@ pub struct SuperBlock {
     pub _unused: [u8; 565],
 }
 const_assert_eq!(std::mem::size_of::<SuperBlock>(), 4096);
+
+impl Checksummed for SuperBlock {
+    fn checksum(&self) -> &[u8] {
+        &self.csum
+    }
+
+    fn bytes_to_checksum(&self) -> &[u8] {
+        &self.as_bytes()[offset_of!(SuperBlock, fsid)..]
+    }
+}
