@@ -6,6 +6,7 @@ use {
         DevItem, RootBackup,
     },
     byteorder::LE,
+    num_enum::{IntoPrimitive, TryFromPrimitive},
     static_assertions::const_assert_eq,
     strum::EnumIter,
     zerocopy::{AsBytes, FromBytes, Unaligned, U16, U32, U64},
@@ -125,7 +126,7 @@ pub struct SuperBlock {
 }
 const_assert_eq!(std::mem::size_of::<SuperBlock>(), 4096);
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter, IntoPrimitive, TryFromPrimitive)]
 #[repr(u16)]
 pub enum ChecksumType {
     CRC32C = 0,

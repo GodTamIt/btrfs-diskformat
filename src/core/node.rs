@@ -1,6 +1,7 @@
 use {
     crate::{constants::CSUM_SIZE, Key, UuidBytes},
     byteorder::LE,
+    num_enum::{IntoPrimitive, TryFromPrimitive},
     static_assertions::const_assert_eq,
     strum::EnumIter,
     zerocopy::{AsBytes, FromBytes, Unaligned, U32, U64},
@@ -71,7 +72,7 @@ pub struct Item {
 }
 const_assert_eq!(std::mem::size_of::<Item>(), 25);
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter, IntoPrimitive, TryFromPrimitive)]
 #[repr(u8)]
 pub enum BackrefRevision {
     /// Indicates asn old filesystem.

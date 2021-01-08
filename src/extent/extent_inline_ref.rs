@@ -1,5 +1,6 @@
 use {
     byteorder::LE,
+    num_enum::{IntoPrimitive, TryFromPrimitive},
     static_assertions::const_assert_eq,
     strum::EnumIter,
     zerocopy::{AsBytes, FromBytes, Unaligned, U64},
@@ -20,7 +21,7 @@ pub struct ExtentInlineRef {
 const_assert_eq!(std::mem::size_of::<ExtentInlineRef>(), 9);
 
 /// The type of `ExtentInlineRef`.
-#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter, IntoPrimitive, TryFromPrimitive)]
 #[repr(u8)]
 pub enum ExtentInlineRefType {
     /// The reference is indirect for a tree block.
