@@ -1,7 +1,7 @@
 use {
     crate::Time,
+    bitflags::bitflags,
     byteorder::LE,
-    enumflags2::BitFlags,
     static_assertions::const_assert_eq,
     zerocopy::{AsBytes, FromBytes, Unaligned, U32, U64},
 };
@@ -72,43 +72,43 @@ pub struct InodeItem {
 }
 const_assert_eq!(std::mem::size_of::<InodeItem>(), 160);
 
-#[derive(BitFlags, Copy, Clone, Debug, Hash, PartialEq)]
-#[repr(u64)]
-enum InodeFlags {
-    /// Do not perform checksum operations.
-    NoDataSum = 0x1,
+bitflags! {
+    pub struct InodeFlags: u64 {
+        /// Do not perform checksum operations.
+        const NO_DATA_SUM = 0x1;
 
-    /// Do not perform copy-on-write for data extents when the reference count is 1.
-    NoDataCoW = 0x2,
+        /// Do not perform copy-on-write for data extents when the reference count is 1.
+        const NO_DATA_COW = 0x2;
 
-    /// The inode is read-only, regardless of permissions or ownership.
-    ReadOnly = 0x4,
+        /// The inode is read-only, regardless of permissions or ownership.
+        const READ_ONLY = 0x4;
 
-    /// Do not perform compression.
-    NoCompress = 0x8,
+        /// Do not perform compression.
+        const NO_COMPRESS = 0x8;
 
-    /// Denotes preallocated extents are present. Hints that filesystem should avoid CoWing those
-    /// extents.
-    Prealloc = 0x10,
+        /// Denotes preallocated extents are present. Hints that filesystem should avoid CoWing
+        /// those extents.
+        const PREALLOC = 0x10;
 
-    /// Operations on this inode should be performed synchronously.
-    Sync = 0x20,
+        /// Operations on this inode should be performed synchronously.
+        const SYNC = 0x20;
 
-    /// The inode is read-only, regardless of permissions or ownership.
-    Immutable = 0x40,
+        /// The inode is read-only; regardless of permissions or ownership.
+        const IMMUTABLE = 0x40;
 
-    /// The inode is append-only.
-    Append = 0x80,
+        /// The inode is append-only.
+        const APPEND = 0x80;
 
-    /// Do not consider the inode for dumping when using the Unix program `dump`.
-    NoDump = 0x100,
+        /// Do not consider the inode for dumping when using the Unix program `dump`.
+        const NO_DUMP = 0x100;
 
-    /// Do not update [atime](InodeItem::atime).
-    NoATime = 0x200,
+        /// Do not update [atime](InodeItem::atime).
+        const NO_ATIME = 0x200;
 
-    /// Operations on directory should be performed synchronously.
-    DirSync = 0x400,
+        /// Operations on directory should be performed synchronously.
+        const DIR_SYNC = 0x400;
 
-    /// Perform compression for the inode.
-    Compress = 0x800,
+        /// Perform compression for the inode.
+        const COMPRESS = 0x800;
+    }
 }

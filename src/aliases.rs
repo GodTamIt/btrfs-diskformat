@@ -29,4 +29,4 @@ pub type btrfs_extent_data_ref = ExtentDataRef;
 pub type btrfs_extent_inline_ref = ExtentInlineRef;
 pub type btrfs_shared_data_ref = SharedDataRef;
 
-pub const BTRFS_BLOCK_GROUP_RAID0: u64 = ReplicationPolicy::RAID0 as u64;
+pub const BTRFS_BLOCK_GROUP_RAID0: u64 = ReplicationPolicy::RAID0.bits();

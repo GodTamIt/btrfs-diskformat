@@ -1,8 +1,7 @@
 use {
+    bitflags::bitflags,
     byteorder::LE,
-    enumflags2::BitFlags,
     static_assertions::const_assert_eq,
-    strum::EnumIter,
     zerocopy::{AsBytes, FromBytes, Unaligned, U64},
 };
 
@@ -21,28 +20,29 @@ pub struct BlockGroupItem {
 }
 const_assert_eq!(std::mem::size_of::<BlockGroupItem>(), 24);
 
-/// The type of storage a block group allows.
-///
-/// [Data](AllocationType::Data) and [Metadata](AllocationType::Metadata) chunks may be mixed within
-/// a [BlockGroupItem], as indicated by its [flags](BlockGroupItem::flags). However,
-/// [System](AllocationType::System) chunks cannot be mixed.
-#[derive(BitFlags, Copy, Clone, Debug, Hash, PartialEq)]
-pub enum AllocationType {
-    Data = 0x1,
-    System = 0x2,
-    Metadata = 0x4,
+bitflags! {
+    /// The type of storage a block group allows.
+    ///
+    /// [DATA](AllocationType::DATA) and [METADATA](AllocationType::METADATA) chunks may be mixed within
+    /// a [BlockGroupItem], as indicated by its [flags](BlockGroupItem::flags). However,
+    /// [SYSTEM](AllocationType::SYSTEM) chunks cannot be mixed.
+    pub struct AllocationType: u64 {
+        const DATA = 0x1;
+        const SYSTEM = 0x2;
+        const METADATA = 0x4;
+    }
 }
 
-/// The replication policy a [BlockGroup] implements. Only one policy may be set for a given group.
-#[derive(BitFlags, Copy, Clone, Debug, Hash, PartialEq, EnumIter)]
-#[repr(u64)]
-pub enum ReplicationPolicy {
-    RAID0 = 0x8,
-    RAID1 = 0x10,
-    DUP = 0x20,
-    RAID10 = 0x40,
-    RAID5 = 0x80,
-    RAID6 = 0x100,
-    RAID1C3 = 0x200,
-    RAID1C4 = 0x400,
+bitflags! {
+    /// The replication policy a [BlockGroup] implements. Only one policy may be set for a given group.
+    pub struct ReplicationPolicy: u64 {
+        const RAID0 = 0x8;
+        const RAID1 = 0x10;
+        const DUP = 0x20;
+        const RAID10 = 0x40;
+        const RAID5 = 0x80;
+        const RAID6 = 0x100;
+        const RAID1C3 = 0x200;
+        const RAID1C4 = 0x400;
+    }
 }
