@@ -6,10 +6,8 @@ use {
 };
 
 /// This structure is used to define the backing device storage that compose a
-/// `Chunk`.
-///
-/// It is associated with the chunk item and is never used outside of this item.
-#[derive(Clone, Debug, AsBytes, FromBytes, Unaligned)]
+/// [Chunk](crate::Chunk).
+#[derive(Copy, Clone, Debug, Hash, PartialEq, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct Stripe {
     /// The ID of the device that contains this stripe.

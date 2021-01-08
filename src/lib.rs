@@ -13,9 +13,3 @@ pub use crate::core::*;
 pub use crate::dev::*;
 pub use crate::extent::*;
 pub use crate::types::*;
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {}
-}

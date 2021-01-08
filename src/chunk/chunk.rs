@@ -5,18 +5,19 @@ use {
     zerocopy::{AsBytes, FromBytes, Unaligned, U16, U32, U64},
 };
 
-// TODO: fix documentation!
-/// This structure contains the mapping from a virtualized usable byte range within the backing storage to a set of one or more stripes on individual backing devices. In addition to the mapping, hints on optimal I/O parameters for this chunk. It is associated with CHUNK_ITEM items.
+/// This structure contains the mapping from a virtualized usable byte range within the backing
+/// storage to a set of one or more stripes on individual backing devices. In addition to the
+/// mapping, hints on optimal I/O parameters for this chunk. It is associated with CHUNK_ITEM items.
 ///
-/// Although the structure definition only contains one stripe member, CHUNK_ITEM items contain as many struct btrfs_stripe structures as specified in the num_stripes and sub_stripes fields.
-#[derive(Clone, Debug, AsBytes, FromBytes, Unaligned)]
+/// Although the structure definition only contains one stripe member, CHUNK_ITEM items contain as
+/// many struct btrfs_stripe structures as specified in the num_stripes and sub_stripes fields.
+#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct Chunk {
     /// The size of this chunk, in bytes.
     pub length: U64<LE>,
 
-    /// The object ID of the root referencing this chunk. This is always the ID of
-    /// an extent root.
+    /// The object ID of the root referencing this chunk. This is always the ID of an extent root.
     pub owner: U64<LE>,
 
     /// The replication stripe length.

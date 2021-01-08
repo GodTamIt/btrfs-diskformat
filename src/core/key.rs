@@ -5,11 +5,11 @@ use {
 };
 
 /// A key used to describe and locate any item in any tree.
-#[derive(Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
-pub struct DiskKey {
+pub struct Key {
     pub objectid: U64<LE>,
     pub r#type: u8,
     pub offset: U64<LE>,
 }
-const_assert_eq!(std::mem::size_of::<DiskKey>(), 17);
+const_assert_eq!(std::mem::size_of::<Key>(), 17);

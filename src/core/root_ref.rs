@@ -8,7 +8,7 @@ use {
 /// backward root references.
 ///
 /// The name of the tree is stored after the end of the struct.
-#[derive(Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct RootRef {
     /// The subtree ID.

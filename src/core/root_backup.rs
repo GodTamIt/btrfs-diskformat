@@ -4,7 +4,7 @@ use {
     zerocopy::{AsBytes, FromBytes, Unaligned, U64},
 };
 
-#[derive(Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct RootBackup {
     pub tree_root: U64<LE>,

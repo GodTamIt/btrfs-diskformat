@@ -15,17 +15,11 @@ pub const FSID_SIZE: usize = 16;
 /// Corresponds to `BTRFS_LABEL_SIZE`.
 pub const LABEL_SIZE: usize = 256;
 
+/// Corresponds to `BTRFS_UUID_SIZE`.
+pub const UUID_SIZE: usize = 16;
+
 /// Corresponds to `BTRFS_SYSTEM_CHUNK_ARRAY_SIZE`.
 pub const MAX_SYSTEM_CHUNK_ARRAY_SIZE: usize = 2048;
 
 /// Corresponds to `BTRFS_NUM_BACKUP_ROOTS`.
 pub const NUM_BACKUP_ROOTS: usize = 4;
-
-#[derive(Debug, Copy, Clone)]
-#[repr(u16)]
-pub enum ChecksumType {
-    CRC32 = 0,
-    XXHASH64 = 1,
-    SHA256 = 2,
-    BLAKE2b = 3,
-}

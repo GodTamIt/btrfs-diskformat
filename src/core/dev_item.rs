@@ -6,12 +6,12 @@ use {
 };
 
 /// Represents a complete block device.
-#[derive(Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct DevItem {
-    /// The internal btrfs device id.
+    /// The internal btrfs device ID.
     ///
-    /// This should match the devid found in the filesystem's list of `Device`s.
+    /// This should match the devid found in the filesystem's list of devices.
     pub devid: U64<LE>,
 
     /// The size of the device.

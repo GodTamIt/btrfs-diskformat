@@ -3,24 +3,27 @@ use {
         constants::{
             CSUM_SIZE, FSID_SIZE, LABEL_SIZE, MAX_SYSTEM_CHUNK_ARRAY_SIZE, NUM_BACKUP_ROOTS,
         },
-        Checksummed, DevItem, RootBackup,
+        DevItem, RootBackup,
     },
     byteorder::LE,
-    memoffset::offset_of,
     static_assertions::const_assert_eq,
+    strum::EnumIter,
     zerocopy::{AsBytes, FromBytes, Unaligned, U16, U32, U64},
 };
 
-/// The primary superblock is located at `constants::PRIMARY_SUPERBLOCK_ADDR`.
+/// The layout of the superblock. A valid superblock must exist for most btrfs implementations to
+/// mount the filesystem.
+///
+/// The primary superblock is located at [PRIMARY_SUPERBLOCK_ADDR](crate::constants::PRIMARY_SUPERBLOCK_ADDR).
+///
 /// There are additional copies of the superblock located at
-/// `constants::SUPERBLOCK_ADDRS`, if those addresses are valid.
+/// [SUPERBLOCK_ADDRS](crate::constants::SUPERBLOCK_ADDRS), if those addresses are valid.
 ///
-/// The primary superblock must be valid for btrfs to identify a filesystem.
+/// **Resources:**
 ///
-/// Resources:
-///     * https://btrfs.wiki.kernel.org/index.php/Data_Structures#btrfs_super_block
-///     * https://btrfs.wiki.kernel.org/index.php/On-disk_Format#Superblock
-#[derive(Clone, AsBytes, FromBytes, Unaligned)]
+///  * <https://btrfs.wiki.kernel.org/index.php/Data_Structures#btrfs_super_block>
+///  * <https://btrfs.wiki.kernel.org/index.php/On-disk_Format#Superblock>
+#[derive(Copy, Clone, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct SuperBlock {
     /// Checksum of everything past this field.
@@ -35,7 +38,7 @@ pub struct SuperBlock {
     /// Flags
     pub flags: U64<LE>,
 
-    /// The magic must be equal to "_BHRfS_M" in ASCII.
+    /// The magic must be equal to `"_BHRfS_M"` in ASCII.
     pub magic: U64<LE>,
 
     /// The generation of the superblock. In SSD mode, not all superblocks may
@@ -51,10 +54,10 @@ pub struct SuperBlock {
     /// The logical address of the log tree's root.
     pub log_root: U64<LE>,
 
-    /// TODO: find out what this is!
+    /// FIXME: find out what this is!
     pub log_root_transid: U64<LE>,
 
-    /// TODO: document this!
+    /// FIXME: document this!
     pub total_bytes: U64<LE>,
 
     pub bytes_used: U64<LE>,
@@ -90,7 +93,7 @@ pub struct SuperBlock {
 
     /// The checksum type.
     ///
-    /// This should correspond with a value from `constants::ChecksumType`.
+    /// This should correspond with a value from [ChecksumType].
     pub csum_type: U16<LE>,
 
     pub root_level: u8,
@@ -101,7 +104,7 @@ pub struct SuperBlock {
 
     pub dev_item: DevItem,
 
-    /// The label represented as an ASCII C string. May not contain '/' or '\\'.
+    /// The label represented as a null-terminated UTF-8 string. May not contain '/' or '\\'.
     pub label: [u8; LABEL_SIZE],
 
     pub cache_generation: U64<LE>,
@@ -115,16 +118,18 @@ pub struct SuperBlock {
 
     pub super_roots: [RootBackup; NUM_BACKUP_ROOTS],
 
-    pub _unused: [u8; 565],
+    // FIXME(const_generics): Merge unused arrays into one array when const_generics is stabilized
+    // and zerocopy uses generics to implement traits.
+    pub _unused1: [u8; 512],
+    pub _unused2: [u8; 53],
 }
 const_assert_eq!(std::mem::size_of::<SuperBlock>(), 4096);
 
-impl Checksummed for SuperBlock {
-    fn checksum(&self) -> &[u8] {
-        &self.csum
-    }
-
-    fn bytes_to_checksum(&self) -> &[u8] {
-        &self.as_bytes()[offset_of!(SuperBlock, fsid)..]
-    }
+#[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter)]
+#[repr(u16)]
+pub enum ChecksumType {
+    CRC32C = 0,
+    XXHASH64 = 1,
+    SHA256 = 2,
+    BLAKE2b = 3,
 }
