@@ -44,7 +44,10 @@ pub struct Header {
 }
 const_assert_eq!(std::mem::size_of::<Header>(), 101);
 
-/// For internal (non-leaf) nodes, the node header is followed by a dynamic amount of key pointers.
+/// For internal (non-leaf) nodes, the [node header] is followed by a dynamic amount of key
+/// pointers.
+///
+/// [node header]: Header
 #[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct KeyPointer {
@@ -54,10 +57,15 @@ pub struct KeyPointer {
 }
 const_assert_eq!(std::mem::size_of::<KeyPointer>(), 33);
 
-/// For leaf nodes, the node header is followed by a dynamic number of items.
+/// For leaf nodes, the [node header] is followed by a dynamic number of items.
 ///
-/// The item data is stored at the end of the node, as pointed to by the [offset](Item::offset) and
-/// [size](Item::size). The contents of the item are specified in the [key](Item::key).
+/// The item data is stored at the end of the node, as pointed to by the [offset] and [size].
+/// The contents of the item are specified in the [key].
+///
+/// [node header]: Header
+/// [offset]: Item::offset
+/// [size]: Item::size
+/// [key]: Item::key
 #[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct Item {

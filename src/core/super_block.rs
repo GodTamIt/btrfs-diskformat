@@ -15,12 +15,16 @@ use {
 /// The layout of the superblock. A valid superblock must exist for most btrfs implementations to
 /// mount the filesystem.
 ///
-/// The primary superblock is located at [PRIMARY_SUPERBLOCK_ADDR](crate::constants::PRIMARY_SUPERBLOCK_ADDR).
+/// The primary superblock is located at [`PRIMARY_SUPERBLOCK_ADDR`].
 ///
-/// There are additional copies of the superblock located at
-/// [SUPERBLOCK_ADDRS](crate::constants::SUPERBLOCK_ADDRS), if those addresses are valid.
+/// There are additional copies of the superblock located at [`SUPERBLOCK_ADDRS`], if those addresses
+/// are valid, respectively.
 ///
-/// **Resources:**
+///
+/// [`PRIMARY_SUPERBLOCK_ADDR`]: crate::constants::PRIMARY_SUPERBLOCK_ADDR
+/// [`SUPERBLOCK_ADDRS`]: crate::constants::SUPERBLOCK_ADDRS
+///
+/// # Resources
 ///
 ///  * <https://btrfs.wiki.kernel.org/index.php/Data_Structures#btrfs_super_block>
 ///  * <https://btrfs.wiki.kernel.org/index.php/On-disk_Format#Superblock>
@@ -42,8 +46,8 @@ pub struct SuperBlock {
     /// The magic must be equal to `"_BHRfS_M"` in ASCII.
     pub magic: U64<LE>,
 
-    /// The generation of the superblock. In SSD mode, not all superblocks may
-    /// be updated, so the latest generation superblock should be used.
+    /// The generation of the superblock. In SSD mode, not all superblocks may be updated, so the
+    /// latest generation superblock should be used.
     pub generation: U64<LE>,
 
     /// The logical address of the root tree's root.
@@ -79,7 +83,9 @@ pub struct SuperBlock {
 
     pub stripesize: U32<LE>,
 
-    /// The size of `sys_chunk_array` found in the superblock.
+    /// The size of [`sys_chunk_array`] found in the superblock.
+    ///
+    /// [`sys_chunk_array`]: SuperBlock::sys_chunk_array
     pub sys_chunk_array_size: U32<LE>,
 
     pub chunk_root_generation: U64<LE>,
@@ -94,7 +100,9 @@ pub struct SuperBlock {
 
     /// The checksum type.
     ///
-    /// This should correspond with a value from [ChecksumType].
+    /// This should correspond with a value from [`ChecksumType`].
+    ///
+    /// [`ChecksumType`]: crate::ChecksumType
     pub csum_type: U16<LE>,
 
     pub root_level: u8,
@@ -105,7 +113,7 @@ pub struct SuperBlock {
 
     pub dev_item: DevItem,
 
-    /// The label represented as a null-terminated UTF-8 string. May not contain '/' or '\\'.
+    /// The label represented as a null-terminated UTF-8 string. May not contain `'/'` or `'\\'`.
     pub label: [u8; LABEL_SIZE],
 
     pub cache_generation: U64<LE>,

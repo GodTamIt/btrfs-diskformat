@@ -23,9 +23,14 @@ const_assert_eq!(std::mem::size_of::<BlockGroupItem>(), 24);
 bitflags! {
     /// The type of storage a block group allows.
     ///
-    /// [DATA](AllocationType::DATA) and [METADATA](AllocationType::METADATA) chunks may be mixed within
-    /// a [BlockGroupItem], as indicated by its [flags](BlockGroupItem::flags). However,
-    /// [SYSTEM](AllocationType::SYSTEM) chunks cannot be mixed.
+    /// [Data] and [metadata] chunks may be mixed within a [block group], as indicated by its
+    /// [flags]. However, [system] chunks cannot be mixed.
+    ///
+    /// [Data]: AllocationType::DATA
+    /// [metadata]: AllocationType::METADATA
+    /// [block group]: BlockGroupItem
+    /// [flags]: BlockGroupItem::flags
+    /// [SYSTEM]: AllocationType::SYSTEM
     pub struct AllocationType: u64 {
         const DATA = 0x1;
         const SYSTEM = 0x2;
@@ -34,7 +39,11 @@ bitflags! {
 }
 
 bitflags! {
-    /// The replication policy a [BlockGroup] implements. Only one policy may be set for a given group.
+    /// The replication policy a [block group] implements.
+    ///
+    /// Only one policy may be set for a given group.
+    ///
+    /// [block group]: BlockGroupItem
     pub struct ReplicationPolicy: u64 {
         const RAID0 = 0x8;
         const RAID1 = 0x10;

@@ -6,8 +6,9 @@ use {
 
 /// Contains an indirect back reference for a file data extent.
 ///
-/// Immediately follows an [ExtentInlineRef](crate::ExtentInlineRef). See that documentation for
-/// more details.
+/// Immediately follows an [`ExtentInlineRef`]. See that documentation for more details.
+///
+/// [`ExtentInlineRef`]: crate::ExtentInlineRef
 #[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct ExtentDataRef {

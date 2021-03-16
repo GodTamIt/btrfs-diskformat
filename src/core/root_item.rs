@@ -45,8 +45,10 @@ pub struct RootItem {
     /// Value to help determine whether this root has been modified by an older btrfs
     /// implementation.
     ///
-    /// If the value is equal to [generation](RootItem::generation), the fields below are valid.
-    /// Otherwise, this indicates the fields are invalid but recoverable.
+    /// If the value is equal to [generation], the fields below are valid. Otherwise, this indicates
+    /// the fields are invalid but recoverable.
+    ///
+    /// [generation]: RootItem::generation
     pub generation_v2: U64<LE>,
 
     /// The subvolume's UUID.
@@ -80,16 +82,16 @@ pub struct RootItem {
     /// This value is non-zero for a received subvolume.
     pub rtransid: U64<LE>,
 
-    /// The timestamp of the [ctransid](RootItem::ctransid).
+    /// The timestamp of the [`ctransid`](RootItem::ctransid).
     pub ctime: Time,
 
-    /// The timestamp of the [otransid](RootItem::otransid).
+    /// The timestamp of the [`otransid`](RootItem::otransid).
     pub otime: Time,
 
-    /// The timestamp of the [stransid](RootItem::stransid).
+    /// The timestamp of the [`stransid`](RootItem::stransid).
     pub stime: Time,
 
-    /// The timestamp of the [rtransid](RootItem::rtransid).
+    /// The timestamp of the [`rtransid`](RootItem::rtransid).
     pub rtime: Time,
 
     /// Currently unused. Reserved for future use.

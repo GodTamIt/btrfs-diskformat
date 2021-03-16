@@ -7,10 +7,15 @@ use {
 
 /// This structure contains the mapping from a virtualized usable byte range within the backing
 /// storage to a set of one or more stripes on individual backing devices. In addition to the
-/// mapping, hints on optimal I/O parameters for this chunk. It is associated with CHUNK_ITEM items.
+/// mapping, hints on optimal I/O parameters for this chunk. It is associated with `CHUNK_ITEM`.
 ///
-/// Although the structure definition only contains one stripe member, CHUNK_ITEM items contain as
-/// many struct btrfs_stripe structures as specified in the num_stripes and sub_stripes fields.
+/// Although the structure definition only contains one stripe member, `CHUNK_ITEM` contain as
+/// many struct [`Stripe`] structures as specified in the [`num_stripes`] and [`sub_stripes`]
+/// fields.
+///
+/// [`Stripe`]: crate::Stripe
+/// [`num_stripes`]: Chunk::num_stripes
+/// [`sub_stripes`]: Chunk::sub_stripes
 #[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct Chunk {

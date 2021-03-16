@@ -52,8 +52,9 @@ pub struct InodeItem {
 
     /// A sequence number used for compatibility with NFS.
     ///
-    /// This value is initialized to 0 and incremented each time [mtime](InodeItem::mtime) is
-    /// updated.
+    /// This value is initialized to 0 and incremented each time [mtime] is updated.
+    ///
+    /// [mtime]: InodeItem::mtime
     pub sequence: U64<LE>,
 
     pub _unused: [u64; 4],
@@ -102,7 +103,7 @@ bitflags! {
         /// Do not consider the inode for dumping when using the Unix program `dump`.
         const NO_DUMP = 0x100;
 
-        /// Do not update [atime](InodeItem::atime).
+        /// Do not update [`atime`](InodeItem::atime).
         const NO_ATIME = 0x200;
 
         /// Operations on directory should be performed synchronously.

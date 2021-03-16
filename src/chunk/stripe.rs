@@ -6,7 +6,9 @@ use {
 };
 
 /// This structure is used to define the backing device storage that compose a
-/// [Chunk](crate::Chunk).
+/// [`Chunk`].
+///
+/// [`Chunk`]: crate::Chunk
 #[derive(Copy, Clone, Debug, Hash, PartialEq, AsBytes, FromBytes, Unaligned)]
 #[repr(C, packed)]
 pub struct Stripe {
