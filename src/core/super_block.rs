@@ -127,10 +127,7 @@ pub struct SuperBlock {
 
     pub super_roots: [RootBackup; NUM_BACKUP_ROOTS],
 
-    // FIXME(const_generics): Merge unused arrays into one array when const_generics is stabilized
-    // and zerocopy uses generics to implement traits.
-    pub _unused1: [u8; 512],
-    pub _unused2: [u8; 53],
+    pub _unused1: [u8; 565],
 }
 const_assert_eq!(std::mem::size_of::<SuperBlock>(), 4096);
 
