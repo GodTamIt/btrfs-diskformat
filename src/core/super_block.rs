@@ -129,7 +129,7 @@ pub struct SuperBlock {
 
     pub _unused1: [u8; 565],
 }
-const_assert_eq!(std::mem::size_of::<SuperBlock>(), 4096);
+const_assert_eq!(core::mem::size_of::<SuperBlock>(), 4096);
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter, IntoPrimitive, TryFromPrimitive)]
 #[repr(u16)]

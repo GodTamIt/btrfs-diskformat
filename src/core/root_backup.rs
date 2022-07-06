@@ -48,4 +48,4 @@ pub struct RootBackup {
     /// Reserved for future use.
     pub _unused_u8s: [u8; 10],
 }
-const_assert_eq!(std::mem::size_of::<RootBackup>(), 168);
+const_assert_eq!(core::mem::size_of::<RootBackup>(), 168);

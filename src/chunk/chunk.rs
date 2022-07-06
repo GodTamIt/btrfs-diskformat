@@ -49,4 +49,4 @@ pub struct Chunk {
     /// The first of one or more stripes that map to device extents.
     pub stripe: Stripe,
 }
-const_assert_eq!(std::mem::size_of::<Chunk>(), 80);
+const_assert_eq!(core::mem::size_of::<Chunk>(), 80);

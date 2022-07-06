@@ -28,4 +28,4 @@ pub struct DevExtent {
     /// The UUID of the chunk tree that owns this extent.
     pub chunk_tree_uuid: UuidBytes,
 }
-const_assert_eq!(std::mem::size_of::<DevExtent>(), 48);
+const_assert_eq!(core::mem::size_of::<DevExtent>(), 48);

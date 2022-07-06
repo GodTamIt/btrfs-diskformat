@@ -12,4 +12,4 @@ pub struct Key {
     pub r#type: u8,
     pub offset: U64<LE>,
 }
-const_assert_eq!(std::mem::size_of::<Key>(), 17);
+const_assert_eq!(core::mem::size_of::<Key>(), 17);

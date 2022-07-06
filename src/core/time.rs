@@ -16,4 +16,4 @@ pub struct Time {
     /// [timestamp]: Time::timestamp
     pub nanoseconds: U32<LE>,
 }
-const_assert_eq!(std::mem::size_of::<Time>(), 12);
+const_assert_eq!(core::mem::size_of::<Time>(), 12);

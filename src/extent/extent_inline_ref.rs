@@ -23,7 +23,7 @@ pub struct ExtentInlineRef {
     /// [`type`]: ExtentInlineRef::type
     pub offset: U64<LE>,
 }
-const_assert_eq!(std::mem::size_of::<ExtentInlineRef>(), 9);
+const_assert_eq!(core::mem::size_of::<ExtentInlineRef>(), 9);
 
 /// The type of [`ExtentInlineRef`].
 ///

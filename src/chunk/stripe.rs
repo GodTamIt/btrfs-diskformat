@@ -26,4 +26,4 @@ pub struct Stripe {
     /// This can be used to confirm that the correct device has been retrieved.
     pub dev_uuid: UuidBytes,
 }
-const_assert_eq!(std::mem::size_of::<Stripe>(), 32);
+const_assert_eq!(core::mem::size_of::<Stripe>(), 32);
