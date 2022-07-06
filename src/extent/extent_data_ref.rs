@@ -24,4 +24,4 @@ pub struct ExtentDataRef {
     /// The reference count being held.
     pub count: U32<LE>,
 }
-const_assert_eq!(std::mem::size_of::<ExtentDataRef>(), 28);
+const_assert_eq!(core::mem::size_of::<ExtentDataRef>(), 28);

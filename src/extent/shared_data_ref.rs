@@ -16,4 +16,4 @@ pub struct SharedDataRef {
     /// The reference count.
     pub count: U32<LE>,
 }
-const_assert_eq!(std::mem::size_of::<SharedDataRef>(), 4);
+const_assert_eq!(core::mem::size_of::<SharedDataRef>(), 4);

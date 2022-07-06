@@ -42,7 +42,7 @@ pub struct Header {
     /// The level of this node. 0 indicates it is a leaf node.
     pub level: u8,
 }
-const_assert_eq!(std::mem::size_of::<Header>(), 101);
+const_assert_eq!(core::mem::size_of::<Header>(), 101);
 
 /// For internal (non-leaf) nodes, the [node header] is followed by a dynamic amount of key
 /// pointers.
@@ -55,7 +55,7 @@ pub struct KeyPointer {
     pub block_pointer: U64<LE>,
     pub generation: U64<LE>,
 }
-const_assert_eq!(std::mem::size_of::<KeyPointer>(), 33);
+const_assert_eq!(core::mem::size_of::<KeyPointer>(), 33);
 
 /// For leaf nodes, the [node header] is followed by a dynamic number of items.
 ///
@@ -78,7 +78,7 @@ pub struct Item {
     /// The size of the data.
     pub size: U32<LE>,
 }
-const_assert_eq!(std::mem::size_of::<Item>(), 25);
+const_assert_eq!(core::mem::size_of::<Item>(), 25);
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, EnumIter, IntoPrimitive, TryFromPrimitive)]
 #[repr(u8)]

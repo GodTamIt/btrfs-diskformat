@@ -18,7 +18,7 @@ pub struct BlockGroupItem {
     /// Flags indicating allocation type and replication policy.
     pub flags: U64<LE>,
 }
-const_assert_eq!(std::mem::size_of::<BlockGroupItem>(), 24);
+const_assert_eq!(core::mem::size_of::<BlockGroupItem>(), 24);
 
 bitflags! {
     /// The type of storage a block group allows.

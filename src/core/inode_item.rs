@@ -71,7 +71,7 @@ pub struct InodeItem {
     /// Timestamp of the creation of the inode.
     pub otime: Time,
 }
-const_assert_eq!(std::mem::size_of::<InodeItem>(), 160);
+const_assert_eq!(core::mem::size_of::<InodeItem>(), 160);
 
 bitflags! {
     pub struct InodeFlags: u64 {

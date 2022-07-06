@@ -56,4 +56,4 @@ pub struct DevItem {
     /// The UUID of the filesystem that owns this device.
     pub fsid: UuidBytes,
 }
-const_assert_eq!(std::mem::size_of::<DevItem>(), 98);
+const_assert_eq!(core::mem::size_of::<DevItem>(), 98);

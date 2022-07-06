@@ -97,4 +97,4 @@ pub struct RootItem {
     /// Currently unused. Reserved for future use.
     pub _unused: [u64; 8],
 }
-const_assert_eq!(std::mem::size_of::<RootItem>(), 439);
+const_assert_eq!(core::mem::size_of::<RootItem>(), 439);

@@ -20,4 +20,4 @@ pub struct RootRef {
     /// The length of the subtree name, stored after this field.
     pub name_len: U16<LE>,
 }
-const_assert_eq!(std::mem::size_of::<RootRef>(), 18);
+const_assert_eq!(core::mem::size_of::<RootRef>(), 18);
