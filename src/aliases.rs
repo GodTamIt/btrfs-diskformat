@@ -38,6 +38,25 @@ pub const BTRFS_INODE_NOATIME: u64 = InodeFlags::NO_ATIME.bits();
 pub const BTRFS_INODE_DIRSYNC: u64 = InodeFlags::DIR_SYNC.bits();
 pub const BTRFS_INODE_COMPRESS: u64 = InodeFlags::COMPRESS.bits();
 
+pub const BTRFS_ROOT_TREE_OBJECTID: u64 = ReservedObjectId::RootTree as u64;
+pub const BTRFS_EXTENT_TREE_OBJECTID: u64 = ReservedObjectId::ExtentTree as u64;
+pub const BTRFS_CHUNK_TREE_OBJECTID: u64 = ReservedObjectId::ChunkTree as u64;
+pub const BTRFS_DEV_TREE_OBJECTID: u64 = ReservedObjectId::DevTree as u64;
+pub const BTRFS_ROOT_TREE_DIR_OBJECTID: u64 = ReservedObjectId::RootTreeDirectory as u64;
+pub const BTRFS_FS_TREE_OBJECTID: u64 = ReservedObjectId::FsTree as u64;
+pub const BTRFS_CSUM_TREE_OBJECTID: u64 = ReservedObjectId::ChecksumTree as u64;
+pub const BTRFS_BALANCE_OBJECTID: u64 = ReservedObjectId::Balance as u64;
+pub const BTRFS_QUOTA_TREE_OBJECTID: u64 = ReservedObjectId::QuotaTree as u64;
+pub const BTRFS_UUID_TREE_OBJECTID: u64 = ReservedObjectId::UuidTree as u64;
+pub const BTRFS_FREE_SPACE_TREE_OBJECTID: u64 = ReservedObjectId::FreeSpaceTree as u64;
+pub const BTRFS_ORPHAN_OBJECTID: u64 = ReservedObjectId::Orphan as u64;
+pub const BTRFS_TREE_LOG_OBJECTID: u64 = ReservedObjectId::TreeLogTree as u64;
+pub const BTRFS_TREE_RELOC_OBJECTID: u64 = ReservedObjectId::TreeRelocationTree as u64;
+pub const BTRFS_DATA_RELOC_TREE_OBJECTID: u64 = ReservedObjectId::DataRelocationTree as u64;
+pub const BTRFS_FREE_SPACE_OBJECTID: u64 = ReservedObjectId::FreeSpace as u64;
+pub const BTRFS_FREE_INO_OBJECTID: u64 = ReservedObjectId::FreeInode as u64;
+pub const BTRFS_MULTIPLE_OBJECTIDS: u64 = ReservedObjectId::MultipleObjectIds as u64;
+
 // dev
 pub type btrfs_dev_extent = DevExtent;
 
