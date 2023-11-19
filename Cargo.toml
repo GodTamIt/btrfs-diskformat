@@ -2,7 +2,7 @@
 name = "btrfs-diskformat"
 version = "0.4.0"
 authors = ["Christopher Tam <ohgodtamit@gmail.com>"]
-edition = "2018"
+edition = "2021"
 description = "An implementation of the BTRFS disk format."
 readme = "README.md"
 repository = "https://github.com/GodTamIt/btrfs-diskformat"
