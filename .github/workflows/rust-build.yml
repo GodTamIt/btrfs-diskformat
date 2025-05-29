@@ -1,0 +1,41 @@
+name: Rust build
+
+on:
+  push:
+    branches: ["master"]
+    paths:
+      - "src/**"
+      - "Cargo.*"
+      - "rustfmt.toml"
+      - ".github/**"
+  pull_request:
+    branches: ["master"]
+    paths:
+      - "src/**"
+      - "Cargo.*"
+      - "rustfmt.toml"
+      - ".github/**"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: "-D warnings" # Fail compilation on any warnings
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: clippy
+          override: true
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Check formatting
+        run: cargo fmt --check
