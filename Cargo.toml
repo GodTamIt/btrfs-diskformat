@@ -1,6 +1,6 @@
 [package]
 name = "btrfs-diskformat"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["Christopher Tam <ohgodtamit@gmail.com>"]
 edition = "2024"
 description = "An implementation of the BTRFS disk format."
