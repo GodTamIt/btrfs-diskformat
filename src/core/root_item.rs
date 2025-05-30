@@ -1,35 +1,33 @@
-use {
-    crate::{InodeItem, Key, Time, UuidBytes},
-    byteorder::LE,
-    static_assertions::const_assert_eq,
-    zerocopy::{AsBytes, FromBytes, Unaligned, U32, U64},
-};
+use crate::{InodeItem, Key, Time, UuidBytes};
+use static_assertions::const_assert_eq;
+use zerocopy::little_endian::{U32 as U32LE, U64 as U64LE};
+use zerocopy_derive::*;
 
 /// Defines the location and parameters of the root of a b-tree.
-#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, IntoBytes, FromBytes, Unaligned, KnownLayout)]
 #[repr(C, packed)]
 pub struct RootItem {
     pub inode: InodeItem,
 
-    pub generation: U64<LE>,
+    pub generation: U64LE,
 
-    pub root_dirid: U64<LE>,
+    pub root_dirid: U64LE,
 
-    pub bytenr: U64<LE>,
+    pub bytenr: U64LE,
 
     /// Currently unused. Always 0.
-    pub byte_limit: U64<LE>,
+    pub byte_limit: U64LE,
 
     /// Currently unused.
-    pub bytes_used: U64<LE>,
+    pub bytes_used: U64LE,
 
     /// The transaction ID of the last transaction that created a snapshot of this root.
-    pub last_snapshot: U64<LE>,
+    pub last_snapshot: U64LE,
 
-    pub flags: U64<LE>,
+    pub flags: U64LE,
 
     /// Only 0 or 1. Historically contained a reference count.
-    pub refs: U32<LE>,
+    pub refs: U32LE,
 
     /// Contains the key of the last dropped item during subvolume removal or relocation.
     ///
@@ -49,7 +47,7 @@ pub struct RootItem {
     /// the fields are invalid but recoverable.
     ///
     /// [generation]: RootItem::generation
-    pub generation_v2: U64<LE>,
+    pub generation_v2: U64LE,
 
     /// The subvolume's UUID.
     pub uuid: UuidBytes,
@@ -67,20 +65,20 @@ pub struct RootItem {
     /// The transaction ID of the last transaction that modified the tree.
     ///
     /// Note: some operations like internal caches or relocation will not update this value.
-    pub ctransid: U64<LE>,
+    pub ctransid: U64LE,
 
     /// The transaction ID of the transaction that created the tree.
-    pub otransid: U64<LE>,
+    pub otransid: U64LE,
 
     /// The transaction ID for the transaction that sent this subvolume.
     ///
     /// This value is non-zero for a received subvolume.
-    pub stransid: U64<LE>,
+    pub stransid: U64LE,
 
     /// The transaction ID for the transaction that received this subvolume.
     ///
     /// This value is non-zero for a received subvolume.
-    pub rtransid: U64<LE>,
+    pub rtransid: U64LE,
 
     /// The timestamp of the [`ctransid`](RootItem::ctransid).
     pub ctime: Time,

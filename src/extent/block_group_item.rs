@@ -1,22 +1,20 @@
-use {
-    bitflags::bitflags,
-    byteorder::LE,
-    static_assertions::const_assert_eq,
-    zerocopy::{AsBytes, FromBytes, Unaligned, U64},
-};
+use bitflags::bitflags;
+use static_assertions::const_assert_eq;
+use zerocopy::little_endian::U64 as U64LE;
+use zerocopy_derive::*;
 
 /// Defines the location, properties, and usage of a block group.
-#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, Hash, IntoBytes, FromBytes, Unaligned, KnownLayout, Immutable)]
 #[repr(C, packed)]
 pub struct BlockGroupItem {
     /// The space used, in bytes, in this block group.
-    pub used: U64<LE>,
+    pub used: U64LE,
 
     /// The object ID of the chunk backing this block group.
-    pub chunk_objectid: U64<LE>,
+    pub chunk_objectid: U64LE,
 
     /// Flags indicating allocation type and replication policy.
-    pub flags: U64<LE>,
+    pub flags: U64LE,
 }
 const_assert_eq!(core::mem::size_of::<BlockGroupItem>(), 24);
 

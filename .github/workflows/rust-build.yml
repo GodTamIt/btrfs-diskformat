@@ -39,3 +39,6 @@ jobs:
 
       - name: Check formatting
         run: cargo fmt --check
+
+      - name: Run lints
+        run: cargo clippy -- -D clippy::all

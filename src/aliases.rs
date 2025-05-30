@@ -44,7 +44,7 @@ pub type btrfs_dev_extent = DevExtent;
 // extent
 pub type btrfs_block_group_item = BlockGroupItem;
 pub type btrfs_extent_data_ref = ExtentDataRef;
-pub type btrfs_extent_inline_ref = ExtentInlineRef;
+pub type btrfs_extent_inline_ref = ExtentInlineRefHeader;
 pub type btrfs_shared_data_ref = SharedDataRef;
 
 pub const BTRFS_BLOCK_GROUP_DATA: u64 = AllocationType::DATA.bits();

@@ -1,61 +1,59 @@
-use {
-    crate::Time,
-    bitflags::bitflags,
-    byteorder::LE,
-    static_assertions::const_assert_eq,
-    zerocopy::{AsBytes, FromBytes, Unaligned, U32, U64},
-};
+use crate::Time;
+use bitflags::bitflags;
+use static_assertions::const_assert_eq;
+use zerocopy::little_endian::{U32 as U32LE, U64 as U64LE};
+use zerocopy_derive::*;
 
 /// Contains traditional inode data and attributes.
-#[derive(Copy, Clone, Debug, AsBytes, FromBytes, Unaligned)]
+#[derive(Copy, Clone, Debug, Hash, IntoBytes, FromBytes, Unaligned, KnownLayout, Immutable)]
 #[repr(C, packed)]
 pub struct InodeItem {
     // FIXME: add documentation!
-    pub generation: U64<LE>,
+    pub generation: U64LE,
 
     // FIXME: add documentation!
-    pub transid: U64<LE>,
+    pub transid: U64LE,
 
     /// The size of a file, in bytes.
-    pub size: U64<LE>,
+    pub size: U64LE,
 
     /// The size allocated to the file, in bytes.
     ///
     /// This is equal to the sum of all of the extent data for the inode.
     /// This is 0 for directories.
-    pub nbytes: U64<LE>,
+    pub nbytes: U64LE,
 
     /// This contains the byte offset of a block group when structure is a free space inode.
     ///
     /// This value is unused for normal inodes.
-    pub block_group: U64<LE>,
+    pub block_group: U64LE,
 
     /// Count of inode references for the inode.
     ///
     /// When used outside of a file tree, this value is 1.
-    pub nlink: U32<LE>,
+    pub nlink: U32LE,
 
     /// The user ID of the owner in Unix.
-    pub uid: U32<LE>,
+    pub uid: U32LE,
 
     /// The group ID of the group owner in Unix.
-    pub gid: U32<LE>,
+    pub gid: U32LE,
 
     /// The Unix protection mode.
-    pub mode: U32<LE>,
+    pub mode: U32LE,
 
     /// The device identifier (if a special file).
-    pub rdev: U64<LE>,
+    pub rdev: U64LE,
 
     /// Flags for the inode. See [InodeFlags] for values.
-    pub flags: U64<LE>,
+    pub flags: U64LE,
 
     /// A sequence number used for compatibility with NFS.
     ///
     /// This value is initialized to 0 and incremented each time [mtime] is updated.
     ///
     /// [mtime]: InodeItem::mtime
-    pub sequence: U64<LE>,
+    pub sequence: U64LE,
 
     pub _unused: [u64; 4],
 
