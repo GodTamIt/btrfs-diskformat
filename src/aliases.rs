@@ -147,6 +147,10 @@ pub type btrfs_extent_item = ExtentItem;
 pub type btrfs_extent_owner_ref = ExtentOwnerRef;
 pub type btrfs_file_extent_item = FileExtentItem;
 pub type btrfs_free_space_info = FreeSpaceInfo;
+pub type btrfs_raid_stride = RaidStride;
+pub type btrfs_raid_stripe = RaidStripe;
+pub type btrfs_remap_item_header = RemapItemHeader;
+pub type btrfs_remap_backref_header = RemapBackrefHeader;
 pub type btrfs_shared_data_ref = SharedDataRef;
 pub type btrfs_tree_block_info = TreeBlockInfo;
 
