@@ -20,12 +20,12 @@ pub struct ExtentInlineRefHeader {
     /// This field also determines the semantic importance of [`offset`].
     ///
     /// [`ExtentInlineRefType`]: crate::ExtentInlineRefType
-    /// [`offset`]: ExtentInlineRef::offset
+    /// [`offset`]: Self::offset
     pub ref_type: ExtentInlineRefType,
 
     /// This field has different functions depending on the value of [`ref_type`].
     ///
-    /// [`ref_type`]: ExtentInlineRef::ref_type
+    /// [`ref_type`]: Self::ref_type
     pub offset: U64LE,
 }
 const_assert_eq!(core::mem::size_of::<ExtentInlineRefHeader>(), 9);
@@ -38,12 +38,12 @@ const_assert_eq!(core::mem::size_of::<ExtentInlineRefHeader>(), 9);
 #[derive(Copy, Clone, TryFromBytes, Unaligned, KnownLayout, Immutable)]
 #[repr(C, packed)]
 pub struct ExtentInlineRefFull {
-    /// This should be equal to [`ExtentInlineRefType::ExtentDataRef`].
+    /// Determines which member of [`tail`](Self::tail) is valid.
     pub ref_type: ExtentInlineRefType,
 
     /// This field has different functions depending on the value of [`ref_type`].
     ///
-    /// [`ref_type`]: ExtentInlineRef::ref_type
+    /// [`ref_type`]: Self::ref_type
     pub tail: ExtentInlineRefTail,
 }
 const_assert_eq!(core::mem::size_of::<ExtentInlineRefFull>(), 29);
@@ -54,9 +54,9 @@ impl ExtentInlineRefFull {
     /// [`ref_type`]: Self::ref_type
     pub fn offset(&self) -> Option<u64> {
         match self.ref_type {
-            ExtentInlineRefType::TreeBlockRef | ExtentInlineRefType::SharedBlockRef => {
-                Some(unsafe { self.tail.offset.get() })
-            }
+            ExtentInlineRefType::ExtentOwnerRef
+            | ExtentInlineRefType::TreeBlockRef
+            | ExtentInlineRefType::SharedBlockRef => Some(unsafe { self.tail.offset.get() }),
             ExtentInlineRefType::SharedDataRef => {
                 Some(unsafe { self.tail.shared_data_tail.offset.get() })
             }
@@ -284,6 +284,11 @@ const_assert_eq!(
 )]
 #[repr(u8)]
 pub enum ExtentInlineRefType {
+    /// Records the subvolume that first allocated the extent for simple quota accounting.
+    ///
+    /// [`offset`](ExtentInlineRefHeader::offset) contains the owning subvolume's object ID.
+    ExtentOwnerRef = 172,
+
     /// The reference is indirect for a tree block.
     ///
     /// [`offset`] contains the object ID of the tree root that allocated the block.
@@ -301,10 +306,10 @@ pub enum ExtentInlineRefType {
 
     /// The reference is indirect for a data extent.
     ///
-    /// An [`ExtentDataRef`] is located immediately after the [`type`] field and overlaps the unused
-    /// [`offset`] field.
+    /// An [`ExtentDataRef`] is located immediately after the [`ref_type`] field and overlaps the
+    /// unused [`offset`] field.
     ///
-    /// [`type`]: ExtentInlineRef::type
+    /// [`ref_type`]: ExtentInlineRefHeader::ref_type
     /// [`offset`]: ExtentInlineRefHeader::offset
     ExtentDataRef = 178,
 

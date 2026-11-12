@@ -143,8 +143,16 @@ pub type btrfs_dev_extent = DevExtent;
 pub type btrfs_block_group_item = BlockGroupItem;
 pub type btrfs_extent_data_ref = ExtentDataRef;
 pub type btrfs_extent_inline_ref = ExtentInlineRefHeader;
+pub type btrfs_extent_item = ExtentItem;
+pub type btrfs_extent_owner_ref = ExtentOwnerRef;
 pub type btrfs_file_extent_item = FileExtentItem;
+pub type btrfs_free_space_info = FreeSpaceInfo;
 pub type btrfs_shared_data_ref = SharedDataRef;
+pub type btrfs_tree_block_info = TreeBlockInfo;
+
+pub const BTRFS_EXTENT_FLAG_DATA: u64 = ExtentFlags::DATA.bits();
+pub const BTRFS_EXTENT_FLAG_TREE_BLOCK: u64 = ExtentFlags::TREE_BLOCK.bits();
+pub const BTRFS_BLOCK_FLAG_FULL_BACKREF: u64 = ExtentFlags::FULL_BACKREF.bits();
 
 pub const BTRFS_COMPRESS_NONE: u8 = CompressionType::None as u8;
 pub const BTRFS_COMPRESS_ZLIB: u8 = CompressionType::Zlib as u8;
@@ -171,3 +179,20 @@ pub const BTRFS_TREE_BLOCK_REF_KEY: u8 = ExtentInlineRefType::TreeBlockRef as u8
 pub const BTRFS_SHARED_BLOCK_REF_KEY: u8 = ExtentInlineRefType::SharedBlockRef as u8;
 pub const BTRFS_EXTENT_DATA_REF_KEY: u8 = ExtentInlineRefType::ExtentDataRef as u8;
 pub const BTRFS_SHARED_DATA_REF_KEY: u8 = ExtentInlineRefType::SharedDataRef as u8;
+
+// quota
+pub type btrfs_qgroup_status_item = QgroupStatusItem;
+pub type btrfs_qgroup_info_item = QgroupInfoItem;
+pub type btrfs_qgroup_limit_item = QgroupLimitItem;
+
+pub const BTRFS_QGROUP_STATUS_FLAG_ON: u64 = QgroupStatusFlags::ON.bits();
+pub const BTRFS_QGROUP_STATUS_FLAG_RESCAN: u64 = QgroupStatusFlags::RESCAN.bits();
+pub const BTRFS_QGROUP_STATUS_FLAG_INCONSISTENT: u64 = QgroupStatusFlags::INCONSISTENT.bits();
+pub const BTRFS_QGROUP_STATUS_FLAG_SIMPLE_MODE: u64 = QgroupStatusFlags::SIMPLE_MODE.bits();
+
+pub const BTRFS_QGROUP_LIMIT_MAX_RFER: u64 = QgroupLimitFlags::MAX_RFER.bits();
+pub const BTRFS_QGROUP_LIMIT_MAX_EXCL: u64 = QgroupLimitFlags::MAX_EXCL.bits();
+pub const BTRFS_QGROUP_LIMIT_RSV_RFER: u64 = QgroupLimitFlags::RSV_RFER.bits();
+pub const BTRFS_QGROUP_LIMIT_RSV_EXCL: u64 = QgroupLimitFlags::RSV_EXCL.bits();
+pub const BTRFS_QGROUP_LIMIT_RFER_CMPR: u64 = QgroupLimitFlags::RFER_CMPR.bits();
+pub const BTRFS_QGROUP_LIMIT_EXCL_CMPR: u64 = QgroupLimitFlags::EXCL_CMPR.bits();

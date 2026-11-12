@@ -7,6 +7,7 @@ mod chunk;
 mod core;
 mod dev;
 mod extent;
+mod quota;
 mod types;
 
 pub use crate::aliases::*;
@@ -14,4 +15,5 @@ pub use crate::chunk::*;
 pub use crate::core::*;
 pub use crate::dev::*;
 pub use crate::extent::*;
+pub use crate::quota::*;
 pub use crate::types::*;
