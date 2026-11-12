@@ -1,5 +1,7 @@
 mod dev_item;
+mod dir_item;
 mod inode_item;
+mod inode_ref;
 mod key;
 mod node;
 mod root_backup;
@@ -9,7 +11,9 @@ mod super_block;
 mod time;
 
 pub use dev_item::*;
+pub use dir_item::*;
 pub use inode_item::*;
+pub use inode_ref::*;
 pub use key::*;
 pub use node::*;
 pub use root_backup::*;

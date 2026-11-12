@@ -11,7 +11,10 @@ pub type btrfs_stripe = Stripe;
 
 // core
 pub type btrfs_dev_item = DevItem;
+pub type btrfs_dir_item = DirItem;
 pub type btrfs_inode_item = InodeItem;
+pub type btrfs_inode_ref = InodeRef;
+pub type btrfs_inode_extref = InodeExtRef;
 pub type btrfs_disk_key = Key;
 pub type btrfs_header = Header;
 pub type btrfs_root_backup = RootBackup;
@@ -45,7 +48,17 @@ pub type btrfs_dev_extent = DevExtent;
 pub type btrfs_block_group_item = BlockGroupItem;
 pub type btrfs_extent_data_ref = ExtentDataRef;
 pub type btrfs_extent_inline_ref = ExtentInlineRefHeader;
+pub type btrfs_file_extent_item = FileExtentItem;
 pub type btrfs_shared_data_ref = SharedDataRef;
+
+pub const BTRFS_COMPRESS_NONE: u8 = CompressionType::None as u8;
+pub const BTRFS_COMPRESS_ZLIB: u8 = CompressionType::Zlib as u8;
+pub const BTRFS_COMPRESS_LZO: u8 = CompressionType::Lzo as u8;
+pub const BTRFS_COMPRESS_ZSTD: u8 = CompressionType::Zstd as u8;
+
+pub const BTRFS_FILE_EXTENT_INLINE: u8 = FileExtentType::Inline as u8;
+pub const BTRFS_FILE_EXTENT_REG: u8 = FileExtentType::Regular as u8;
+pub const BTRFS_FILE_EXTENT_PREALLOC: u8 = FileExtentType::Prealloc as u8;
 
 pub const BTRFS_BLOCK_GROUP_DATA: u64 = AllocationType::DATA.bits();
 pub const BTRFS_BLOCK_GROUP_SYSTEM: u64 = AllocationType::SYSTEM.bits();
