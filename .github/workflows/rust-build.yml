@@ -5,6 +5,8 @@ on:
     branches: ["master"]
     paths:
       - "src/**"
+      - "tests/**"
+      - "ci/**"
       - "Cargo.*"
       - "rustfmt.toml"
       - ".github/**"
@@ -12,6 +14,8 @@ on:
     branches: ["master"]
     paths:
       - "src/**"
+      - "tests/**"
+      - "ci/**"
       - "Cargo.*"
       - "rustfmt.toml"
       - ".github/**"
@@ -41,4 +45,27 @@ jobs:
         run: cargo fmt --check
 
       - name: Run lints
-        run: cargo clippy -- -D clippy::all
+        run: cargo clippy --all-targets -- -D clippy::all
+
+  mount-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Prepare mount tests
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs
+          sudo modprobe -a loop btrfs
+          uname -a
+          mkfs.btrfs --version
+
+      - name: Run mount tests
+        run: bash ci/test-mounts.sh --nocapture

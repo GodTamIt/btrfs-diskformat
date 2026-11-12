@@ -19,6 +19,25 @@ See the [LICENSE-BSD](LICENSE-BSD) file in this repository for more information.
 - `std`: By default, the crate is `no_std`. This enables `std` features from
   the `zerocopy` and `strum` dependencies.
 
+## Integration tests
+
+Privileged mount tests use only temporary sparse file-backed disks, never real disks.
+They are ignored by normal `cargo test`. Run them with:
+
+```sh
+bash ci/test-mounts.sh
+```
+
+Requires Linux kernel >= 6.7, `btrfs-progs` >= 6.6.2 (6.6.3 recommended),
+util-linux tools, Python 3, Rust, and passwordless sudo. Run the script as an
+unprivileged user: it builds without privileges, then runs tests serially as root
+in a private mount namespace.
+
+Coverage includes checksums, compression, metadata UUID, free-space and block-group
+trees, quotas, mixed block groups, and multi-device RAID. Experimental RAID-stripe
+and remap features and physical zoned devices are not exercised: host kernels and
+tools lack finalized support.
+
 ## Contributing
 
 Because this codebase is developed without knowledge of the Linux btrfs source code and is released under a more permissive license(s) than GPLv2, development is heavily dependent on information released on the [btrfs wiki] and reverse engineering the effects of operations made by `btrfs-progs` and other utilities. As a result, contributions to this codebase must strictly follow the same siloed approach.
