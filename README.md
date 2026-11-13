@@ -19,13 +19,35 @@ See the [LICENSE-BSD](LICENSE-BSD) file in this repository for more information.
 - `std`: By default, the crate is `no_std`. This enables `std` features from
   the `zerocopy` and `strum` dependencies.
 
+## Development
+
+Enter the pinned tool shell with `nix develop` (or `direnv allow` with direnv's
+Nix integration enabled), then use:
+
+```sh
+just --list       # or just
+just check        # tooling checks, Rust formatting, lint, and unprivileged tests
+just build
+just test         # includes doctests; privileged tests remain ignored
+just fmt
+just test-mounts  # Linux only; requires host sudo
+```
+
+Without Nix, install Rust and the tools used by the recipes and run the same
+commands. `just fmt-tools` formats the justfile, shell script, and Nix flake.
+The shell supplies userspace tools, not a kernel or privilege configuration:
+mount tests still require Linux >= 6.7 with loop-device and Btrfs support and
+host-configured passwordless sudo. The privileged run trusts the checkout, built
+test executable, and every tool on the preserved `PATH` as root. A private mount
+namespace is not a VM.
+
 ## Integration tests
 
 Privileged mount tests use only temporary sparse file-backed disks, never real disks.
 They are ignored by normal `cargo test`. Run them with:
 
 ```sh
-bash ci/test-mounts.sh
+bash scripts/tasks/test-mounts.sh
 ```
 
 Requires Linux kernel >= 6.7, `btrfs-progs` >= 6.6.2 (6.6.3 recommended),

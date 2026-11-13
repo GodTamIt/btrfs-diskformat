@@ -6,7 +6,7 @@ on:
     paths:
       - "src/**"
       - "tests/**"
-      - "ci/**"
+      - "scripts/**"
       - "Cargo.*"
       - "rustfmt.toml"
       - ".github/**"
@@ -15,7 +15,7 @@ on:
     paths:
       - "src/**"
       - "tests/**"
-      - "ci/**"
+      - "scripts/**"
       - "Cargo.*"
       - "rustfmt.toml"
       - ".github/**"
@@ -68,4 +68,4 @@ jobs:
           mkfs.btrfs --version
 
       - name: Run mount tests
-        run: bash ci/test-mounts.sh --nocapture
+        run: bash scripts/tasks/test-mounts.sh --nocapture

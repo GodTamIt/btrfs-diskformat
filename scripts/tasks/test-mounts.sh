@@ -6,14 +6,14 @@ if [[ $(uname -s) != Linux ]]; then
     exit 1
 fi
 
-if (( EUID == 0 )); then
+if ((EUID == 0)); then
     printf 'Run as an unprivileged user; only the test executable is elevated via sudo.\n' >&2
     exit 1
 fi
 
-cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.."
 
-for tool in cargo python3 unshare mount umount losetup mkfs.btrfs btrfs btrfstune id sudo; do
+for tool in cargo python3 unshare mount umount losetup mkfs.btrfs btrfs btrfstune id sudo env; do
     if ! command -v "$tool" >/dev/null 2>&1; then
         printf 'Required tool not found: %s\n' "$tool" >&2
         exit 1
@@ -23,7 +23,8 @@ done
 artifacts=$(mktemp)
 trap 'rm -f -- "$artifacts"' EXIT
 cargo test --test mount --no-run --message-format=json >"$artifacts"
-binary=$(python3 - "$artifacts" <<'PY'
+binary=$(
+    python3 - "$artifacts" <<'PY'
 import json
 import sys
 
@@ -41,4 +42,5 @@ print(binaries[0])
 PY
 )
 
-sudo -- unshare --mount --propagation private -- "$binary" --ignored --test-threads=1 "$@"
+# Preserve dev-shell tools even when sudo resets PATH.
+sudo -- "$(command -v env)" "PATH=$PATH" unshare --mount --propagation private -- "$binary" --ignored --test-threads=1 "$@"
