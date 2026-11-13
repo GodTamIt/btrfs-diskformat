@@ -1,19 +1,27 @@
 mod dev_item;
+mod dir_item;
 mod inode_item;
+mod inode_ref;
 mod key;
+mod key_type;
 mod node;
 mod root_backup;
 mod root_item;
 mod root_ref;
 mod super_block;
+mod super_block_flags;
 mod time;
 
 pub use dev_item::*;
+pub use dir_item::*;
 pub use inode_item::*;
+pub use inode_ref::*;
 pub use key::*;
+pub use key_type::*;
 pub use node::*;
 pub use root_backup::*;
 pub use root_item::*;
 pub use root_ref::*;
 pub use super_block::*;
+pub use super_block_flags::*;
 pub use time::*;

@@ -7,6 +7,7 @@ use zerocopy_derive::*;
 #[repr(C, packed)]
 pub struct Key {
     pub objectid: U64LE,
+    /// See [`crate::KeyType`] for known values; kept raw for forward compatibility.
     pub key_type: u8,
     pub offset: U64LE,
 }

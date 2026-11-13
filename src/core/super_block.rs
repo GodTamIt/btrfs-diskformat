@@ -22,8 +22,7 @@ use zerocopy_derive::*;
 ///
 /// # Resources
 ///
-///  * <https://btrfs.wiki.kernel.org/index.php/Data_Structures#btrfs_super_block>
-///  * <https://btrfs.wiki.kernel.org/index.php/On-disk_Format#Superblock>
+///  * <https://btrfs.readthedocs.io/en/latest/dev/On-disk-format.html#superblock>
 #[derive(Copy, Clone, IntoBytes, TryFromBytes, Unaligned, KnownLayout)]
 #[repr(C, packed)]
 pub struct SuperBlock {
@@ -89,9 +88,11 @@ pub struct SuperBlock {
     pub compat_flags: U64LE,
 
     /// Only implementations that support these flags can write to the filesystem.
+    /// See [CompatRoFlags](crate::CompatRoFlags) for values.
     pub compat_ro_flags: U64LE,
 
     /// Only implementations that support these flags can use the filesystem.
+    /// See [IncompatFlags](crate::IncompatFlags) for values.
     pub incompat_flags: U64LE,
 
     /// The checksum type.
@@ -116,8 +117,14 @@ pub struct SuperBlock {
 
     pub uuid_tree_generation: U64LE,
 
+    /// UUID retained in metadata block headers when [METADATA_UUID] is set.
+    /// It can differ from the current filesystem UUID in [`fsid`](Self::fsid).
+    ///
+    /// [METADATA_UUID]: crate::IncompatFlags::METADATA_UUID
+    pub metadata_uuid: [u8; FSID_SIZE],
+
     /// Reserved for extensibility.
-    pub _reserved: [U64LE; 30],
+    pub _reserved: [U64LE; 28],
 
     pub sys_chunk_array: [u8; MAX_SYSTEM_CHUNK_ARRAY_SIZE],
 
