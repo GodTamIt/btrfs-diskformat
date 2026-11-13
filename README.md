@@ -51,9 +51,10 @@ bash scripts/tasks/test-mounts.sh
 ```
 
 Requires Linux kernel >= 6.7, `btrfs-progs` >= 6.6.2 (6.6.3 recommended),
-util-linux tools, Python 3, Rust, and passwordless sudo. Run the script as an
-unprivileged user: it builds without privileges, then runs tests serially as root
-in a private mount namespace.
+util-linux tools, Rust, and passwordless sudo. Rust owns the tests, fixtures, and
+cleanup; Bash only builds via Cargo and elevates test execution. Run the script as
+an unprivileged user: it builds without privileges, then runs tests serially as
+root in a private mount namespace.
 
 Coverage includes checksums, compression, metadata UUID, free-space and block-group
 trees, quotas, mixed block groups, and multi-device RAID. Experimental RAID-stripe

@@ -13,34 +13,25 @@ fi
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.."
 
-for tool in cargo python3 unshare mount umount losetup mkfs.btrfs btrfs btrfstune id sudo env; do
+for tool in cargo rustc unshare mount umount losetup mkfs.btrfs btrfs btrfstune id sudo env; do
     if ! command -v "$tool" >/dev/null 2>&1; then
         printf 'Required tool not found: %s\n' "$tool" >&2
         exit 1
     fi
 done
 
-artifacts=$(mktemp)
-trap 'rm -f -- "$artifacts"' EXIT
-cargo test --test mount --no-run --message-format=json >"$artifacts"
-binary=$(
-    python3 - "$artifacts" <<'PY'
-import json
-import sys
+if [[ ${1-} == --run ]]; then
+    shift
+    if [[ -z ${1-} ]]; then
+        printf 'Missing test executable.\n' >&2
+        exit 1
+    fi
+    # Preserve dev-shell tools even when sudo resets PATH.
+    exec sudo -- "$(command -v env)" "PATH=$PATH" unshare --mount --propagation private -- "$@"
+fi
 
-with open(sys.argv[1]) as artifacts:
-    binaries = [
-        artifact["executable"]
-        for artifact in map(json.loads, artifacts)
-        if artifact.get("reason") == "compiler-artifact"
-        and artifact["target"]["name"] == "mount"
-        and artifact["profile"]["test"]
-        and artifact.get("executable") is not None
-    ]
-assert len(binaries) == 1, f"Expected one mount test executable, found {len(binaries)}"
-print(binaries[0])
-PY
-)
-
-# Preserve dev-shell tools even when sudo resets PATH.
-sudo -- "$(command -v env)" "PATH=$PATH" unshare --mount --propagation private -- "$binary" --ignored --test-threads=1 "$@"
+# Exercise the host kernel and override any configured target runner.
+host=$(rustc --print host-tuple)
+runner="CARGO_TARGET_${host^^}_RUNNER"
+export "${runner//-/_}=bash scripts/tasks/test-mounts.sh --run"
+exec cargo test --target "$host" --test mount -- --ignored --test-threads=1 "$@"

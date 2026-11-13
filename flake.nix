@@ -25,15 +25,12 @@
             packages =
               with pkgs;
               [
-                bash
-                coreutils
                 cargo
                 rustc
                 rustfmt
                 clippy
                 rust-analyzer
                 just
-                python3
                 shellcheck
                 shfmt
                 nixfmt
